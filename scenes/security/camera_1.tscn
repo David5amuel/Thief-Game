@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyny6w3bprg68"]
+
+[ext_resource type="Texture2D" uid="uid://1lflsy14hmwe" path="res://art/cameras.png" id="1_75ovb"]
+[ext_resource type="Script" path="res://scenes/security/camera_1.gd" id="1_hi75f"]
+[ext_resource type="Texture2D" uid="uid://v8rurxrvwye4" path="res://art/camera_vision.png" id="1_hk3ba"]
+
+[node name="Camera1" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_hi75f")
+
+[node name="CameraVision" type="Sprite2D" parent="."]
+position = Vector2(-1.19209e-07, 28.625)
+scale = Vector2(0.8125, 1.61875)
+texture = ExtResource("1_hk3ba")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_75ovb")
+hframes = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1, 1.30599)
+polygon = PackedVector2Array(-3, 3, 3, 3, 12, 48, -12, 48)
+
+[node name="ChangeStateTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="ChangeStateTimer" to="." method="_on_change_state_timer_timeout"]

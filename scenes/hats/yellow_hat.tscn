@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq4ffxvcu7xiv"]
+
+[ext_resource type="PackedScene" uid="uid://c80m8cdwo2848" path="res://scenes/hats/hat_blueprint.tscn" id="1_1uqnb"]
+[ext_resource type="Script" path="res://scenes/hats/yellow_hat.gd" id="2_j60we"]
+
+[node name="YellowHat" instance=ExtResource("1_1uqnb")]
+script = ExtResource("2_j60we")
+
+[node name="Sprite2D" parent="." index="1"]
+frame = 3

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2eqc5np1pvfw"]
+
+[ext_resource type="PackedScene" uid="uid://c80m8cdwo2848" path="res://scenes/hats/hat_blueprint.tscn" id="1_2rd3s"]
+[ext_resource type="Script" path="res://scenes/hats/blue_hat.gd" id="2_3vbya"]
+
+[node name="BlueHat" instance=ExtResource("1_2rd3s")]
+script = ExtResource("2_3vbya")
+
+[node name="Sprite2D" parent="." index="1"]
+frame = 1

@@ -1,0 +1,156 @@
+[gd_scene load_steps=12 format=3 uid="uid://xl6v1i7f7mqa"]
+
+[ext_resource type="Texture2D" uid="uid://ddjhi521ul5j5" path="res://art/guard-v1.png" id="1_0q474"]
+[ext_resource type="Script" path="res://scenes/security/guard.gd" id="1_mxt2w"]
+[ext_resource type="Texture2D" uid="uid://724jsaixebag" path="res://art/guard_vision.png" id="3_7d1xt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c7ukq"]
+
+[sub_resource type="Animation" id="Animation_kkk17"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_yhyy6"]
+resource_name = "idle_down"
+length = 0.3
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [12, 14]
+}
+
+[sub_resource type="Animation" id="Animation_on30x"]
+resource_name = "idle_up"
+length = 0.3
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [18, 20]
+}
+
+[sub_resource type="Animation" id="Animation_wb52m"]
+resource_name = "walking_down"
+length = 0.48
+loop_mode = 1
+step = 0.08
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_hbqbu"]
+resource_name = "walking_up"
+length = 0.48
+loop_mode = 1
+step = 0.08
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eyvy8"]
+_data = {
+"RESET": SubResource("Animation_kkk17"),
+"idle_down": SubResource("Animation_yhyy6"),
+"idle_up": SubResource("Animation_on30x"),
+"walking_down": SubResource("Animation_wb52m"),
+"walking_up": SubResource("Animation_hbqbu")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3qsoc"]
+radius = 80.0999
+
+[node name="Guard" type="CharacterBody2D"]
+script = ExtResource("1_mxt2w")
+
+[node name="GuardVision" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(5.0625, 5)
+texture = ExtResource("3_7d1xt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0q474")
+hframes = 24
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c7ukq")
+debug_color = Color(1, 0.00647609, 0.0545903, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eyvy8")
+}
+
+[node name="FlipSideTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="Destinations" type="Node2D" parent="."]
+
+[node name="PointA" type="Marker2D" parent="Destinations"]
+top_level = true
+
+[node name="PointB" type="Marker2D" parent="Destinations"]
+top_level = true
+position = Vector2(48, 0)
+
+[node name="StandStill" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("CircleShape2D_3qsoc")
+debug_color = Color(0.929412, 0, 0.247059, 0.262745)
+
+[connection signal="timeout" from="FlipSideTimer" to="." method="_on_flip_side_timer_timeout"]
+[connection signal="timeout" from="StandStill" to="." method="_on_stand_still_timeout"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]

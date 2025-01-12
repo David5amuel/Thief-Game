@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://c2eluf5f0tti3"]
+
+[ext_resource type="Script" path="res://scenes/security/shopkeeper.gd" id="1_sgcb0"]
+[ext_resource type="Texture2D" uid="uid://v8rurxrvwye4" path="res://art/camera_vision.png" id="2_u4gr5"]
+[ext_resource type="Texture2D" uid="uid://cdl3kraga4rl8" path="res://art/shopkeeper.png" id="3_sjsit"]
+
+[sub_resource type="Animation" id="Animation_uvx0w"]
+resource_name = "idle"
+length = 0.64
+loop_mode = 1
+step = 0.08
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_but7h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vfo0f"]
+_data = {
+"RESET": SubResource("Animation_but7h"),
+"idle": SubResource("Animation_uvx0w")
+}
+
+[node name="Shopkeeper" type="Area2D"]
+y_sort_enabled = true
+collision_layer = 4
+script = ExtResource("1_sgcb0")
+
+[node name="ShopkeeperVision" type="Sprite2D" parent="."]
+position = Vector2(0, 23)
+scale = Vector2(0.8125, 1.4522)
+texture = ExtResource("2_u4gr5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_sjsit")
+hframes = 8
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0.200001, -11.2871)
+scale = Vector2(1, 1.30599)
+polygon = PackedVector2Array(-3, 3, 3, 3, 12, 48, -12, 48)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vfo0f")
+}
+autoplay = "idle"
+
+[node name="FlipSideTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="FlipSideTimer" to="." method="_on_flip_side_timer_timeout"]

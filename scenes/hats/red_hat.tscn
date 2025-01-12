@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhkpohtevjp2o"]
+
+[ext_resource type="PackedScene" uid="uid://c80m8cdwo2848" path="res://scenes/hats/hat_blueprint.tscn" id="1_5vaoe"]
+[ext_resource type="Script" path="res://scenes/hats/red_hat.gd" id="2_y6bxp"]
+
+[node name="RedHat" instance=ExtResource("1_5vaoe")]
+script = ExtResource("2_y6bxp")
