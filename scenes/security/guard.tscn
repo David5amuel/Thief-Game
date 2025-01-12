@@ -106,6 +106,8 @@ _data = {
 radius = 80.0999
 
 [node name="Guard" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_mxt2w")
 
 [node name="GuardVision" type="Sprite2D" parent="."]
@@ -144,7 +146,7 @@ wait_time = 3.0
 one_shot = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
 shape = SubResource("CircleShape2D_3qsoc")

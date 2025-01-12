@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-var speed := 200
+var speed := 100
 var direction : Vector2
 var inverse_direction := 1
 

@@ -1,7 +1,7 @@
 extends HatBlueprint
 
 func add_player_bad_effects(player):
-	player.speed = 100
+	player.speed = 65
 	
 func remove_player_bad_effects(player):
-	player.speed = 200
+	player.speed = 100
